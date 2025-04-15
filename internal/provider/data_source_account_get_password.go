@@ -24,7 +24,7 @@ var (
 )
 
 // account_data_souorce is a helper function to simplify the provider implementation.
-func account_get_password_data_source() datasource.DataSource {
+func accountGetPasswordDataSource() datasource.DataSource {
 	return &accountDataSource{}
 }
 
@@ -109,8 +109,8 @@ func (d *accountDataSource) Read(ctx context.Context, req datasource.ReadRequest
 		return
 	}
 
-	// Defined api_url
-	api_url := "api/get_password"
+	// Defined apiURL
+	apiURL := "api/get_password"
 
 	// builds params
 	//params := make(map[string]string)
@@ -118,8 +118,8 @@ func (d *accountDataSource) Read(ctx context.Context, req datasource.ReadRequest
 		"account_id": data.AccountID.ValueString(),
 	}
 
-	// Call get_request function get_request
-	responseBody, err := d.client.get_request(ctx, api_url, params)
+	// Call getRequest function get_request
+	responseBody, err := d.client.getRequest(ctx, apiURL, params)
 	if err != nil {
 		resp.Diagnostics.AddError(
 			"Error on Get Request",

@@ -1,0 +1,75 @@
+version: "2"
+linters:
+  default: none
+  enable:
+    - asciicheck
+    - errcheck
+    - gocritic
+    - govet
+    - ineffassign
+    - makezero
+    - misspell
+    - mnd
+    - nakedret
+    - nilerr
+    - nolintlint
+    - staticcheck
+    - unconvert
+    - unparam
+    - unused
+    - whitespace
+  settings:
+    errcheck:
+      exclude-functions:
+        - (*github.com/hashicorp/terraform-plugin-framework/tfsdk.State).SetAttribute
+    gocritic:
+      enabled-tags:
+        - diagnostic
+      disabled-tags:
+        - style
+        - performance
+        - experimental
+        - opinionated
+    mnd:
+      checks:
+        - argument
+        - assign
+        - case
+        - operation
+        - return
+      ignored-functions:
+        - os.Exit
+        - stringvalidator.LengthAtMost
+        - stringvalidator.LengthBetween
+    nolintlint:
+      allow-no-explanation:
+        - mnd
+      allow-unused: false
+    staticcheck:
+      checks:
+        - -ST1003
+        - all
+    unparam:
+      check-exported: true
+  exclusions:
+    generated: lax
+    presets:
+      - comments
+      - common-false-positives
+      - legacy
+      - std-error-handling
+    paths:
+      - third_party$
+      - builtin$
+      - examples$
+issues:
+  max-same-issues: 0
+formatters:
+  enable:
+    - gofmt
+  exclusions:
+    generated: lax
+    paths:
+      - third_party$
+      - builtin$
+      - examples$

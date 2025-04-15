@@ -55,7 +55,7 @@ type securdenProvider struct {
 
 // Securden Client to API
 type securdenClient struct {
-	ServerUrl string
+	ServerURL string
 	AuthToken string
 	Timeout   time.Duration
 	Client    *http.Client
@@ -127,25 +127,25 @@ func (p *securdenProvider) Configure(ctx context.Context, req provider.Configure
 	// Default values to environment variables, but override
 	// with Terraform configuration value if set.
 	authtoken := os.Getenv("SECURDEN_AUTHTOKEN")
-	server_url := os.Getenv("SECURDEN_URL")
-	server_timeout := os.Getenv("SECURDEN_TIMEOUT")
+	serverurl := os.Getenv("SECURDEN_URL")
+	servertimeout := os.Getenv("SECURDEN_TIMEOUT")
 	//timeout := int64(30)
 
 	// Check inputs
 	if !config.ServerURL.IsNull() {
-		server_url = config.ServerURL.ValueString()
+		serverurl = config.ServerURL.ValueString()
 	}
 	if !config.AuthToken.IsNull() {
 		authtoken = config.AuthToken.ValueString()
 	}
 	if !config.ServerTimeout.IsNull() {
 		//server_timeout = config.ServerTimeout.ValueInt64()
-		server_timeout = config.ServerTimeout.ValueString()
+		servertimeout = config.ServerTimeout.ValueString()
 	}
 
 	// If any of the expected configurations are missing, return
 	// errors with provider-specific guidance.
-	if server_url == "" {
+	if serverurl == "" {
 		resp.Diagnostics.AddAttributeError(
 			path.Root("server_url"),
 			"Missing Securden URL",
@@ -165,9 +165,9 @@ func (p *securdenProvider) Configure(ctx context.Context, req provider.Configure
 		)
 	}
 
-	if server_timeout == "" {
+	if servertimeout == "" {
 		//force default value to 30 seconds
-		server_timeout = "30"
+		servertimeout = "30"
 	}
 
 	if resp.Diagnostics.HasError() {
@@ -175,7 +175,7 @@ func (p *securdenProvider) Configure(ctx context.Context, req provider.Configure
 	}
 
 	// Timeout calculation
-	seconds, _ := strconv.ParseInt(server_timeout, 0, 64)
+	seconds, _ := strconv.ParseInt(servertimeout, 0, 64)
 	timeoutDuration := time.Duration(seconds) * time.Second
 
 	// Create a new Securden client using the configuration values
@@ -185,7 +185,7 @@ func (p *securdenProvider) Configure(ctx context.Context, req provider.Configure
 
 	// Create and return the client
 	client := &securdenClient{
-		ServerUrl: server_url,
+		ServerURL: serverurl,
 		AuthToken: authtoken,
 		Timeout:   timeoutDuration,
 		Client:    httpClient,
@@ -205,6 +205,6 @@ func (p *securdenProvider) Resources(_ context.Context) []func() resource.Resour
 // DataSources defines the data sources implemented in the provider.
 func (p *securdenProvider) DataSources(_ context.Context) []func() datasource.DataSource {
 	return []func() datasource.DataSource{
-		account_get_password_data_source,
+		accountGetPasswordDataSource,
 	}
 }
