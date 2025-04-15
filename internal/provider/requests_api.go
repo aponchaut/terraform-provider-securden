@@ -55,7 +55,7 @@ import (
 
 func (c *securdenClient) getRequest(ctx context.Context, apiURL string, params map[string]string) ([]byte, error) {
 	// full URL
-	fullURL := fmt.Sprintf("%s/%s", c.ServerURL, apiURL) //  https://bel.securden-vault.com/api/get_password
+	fullURL := fmt.Sprintf("%s/%s", c.ServerURL, apiURL)
 
 	// Logs to debug
 	//tflog.Debug(ctx, fmt.Sprintf("Making GET request to: %s", fullURL))
